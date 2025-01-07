@@ -1,7 +1,7 @@
 mod anything;
 mod macros;
 
-pub use crate::anything::Anything;
+pub use anything::Anything;
 
 #[cfg(test)]
 mod tests {
