@@ -3,8 +3,8 @@ pub mod macros;
 
 pub mod prelude {
     #![allow(unused_imports)]
-    use super::anything::*;
-    use super::macros::*;
+    pub use super::anything::Anything;
+    pub use super::macros::*;
 }
 
 #[cfg(test)]
