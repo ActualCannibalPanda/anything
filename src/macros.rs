@@ -11,7 +11,7 @@ macro_rules! add_multiple {
 macro_rules! create_anything {
     ($($x:expr),*) => {
         {
-            let mut anything = Anything::new();
+            let mut anything = crate::anything::Anything::new();
             $(
                 anything.insert($x);
             )*

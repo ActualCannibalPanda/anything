@@ -5,39 +5,15 @@ use std::{
 
 pub type RawMap<A> = HashMap<TypeId, Box<A>>;
 
-pub trait ToBox<T: ?Sized + CastToT>: Any {
+pub trait ToBox<T: ?Sized + Cast>: Any {
     fn to_box(self) -> Box<T>;
 }
 
-pub trait CastToT {
+pub trait Cast {
     fn type_id(&self) -> TypeId;
 
     unsafe fn downcast_ref<T>(&self) -> &T;
     unsafe fn downcast_mut<T>(&mut self) -> &mut T;
-}
-
-macro_rules! generate_implementation {
-    ($t:ident $(+ $othert:ident)*) => {
-        impl CastToT for dyn $t $(+ $othert)* {
-            fn type_id(&self) -> TypeId {
-                self.type_id()
-            }
-
-            unsafe fn downcast_ref<T>(&self) -> &T {
-                &*(self as *const Self as *const T)
-            }
-
-            unsafe fn downcast_mut<T>(&mut self) -> &mut T {
-                &mut *(self as *mut Self as *mut T)
-            }
-        }
-
-        impl<T: $t $(+ $othert)*> ToBox<dyn $t $(+ $othert)*> for T {
-            fn to_box(self) -> Box<dyn $t $(+ $othert)*> {
-                Box::new(self)
-            }
-        }
-    }
 }
 
 pub struct Map<A: ?Sized = dyn Any> {
@@ -46,7 +22,7 @@ pub struct Map<A: ?Sized = dyn Any> {
 
 pub type Anything = Map<dyn Any>;
 
-impl<A: ?Sized + CastToT> Map<A> {
+impl<A: ?Sized + Cast> Map<A> {
     pub fn new() -> Map<A> {
         Map {
             raw: RawMap::with_hasher(Default::default()),
@@ -67,6 +43,30 @@ impl<A: ?Sized + CastToT> Map<A> {
 
     pub fn insert<T: ToBox<A>>(&mut self, value: T) {
         self.raw.insert(TypeId::of::<T>(), value.to_box());
+    }
+}
+
+macro_rules! generate_implementation {
+    ($t:ident $(+ $othert:ident)*) => {
+        impl Cast for dyn $t $(+ $othert)* {
+            fn type_id(&self) -> TypeId {
+                self.type_id()
+            }
+
+            unsafe fn downcast_ref<T>(&self) -> &T {
+                &*(self as *const Self as *const T)
+            }
+
+            unsafe fn downcast_mut<T>(&mut self) -> &mut T {
+                &mut *(self as *mut Self as *mut T)
+            }
+        }
+
+        impl<T: $t $(+ $othert)*> ToBox<dyn $t $(+ $othert)*> for T {
+            fn to_box(self) -> Box<dyn $t $(+ $othert)*> {
+                Box::new(self)
+            }
+        }
     }
 }
 

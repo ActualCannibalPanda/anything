@@ -3,14 +3,12 @@ pub mod macros;
 
 pub mod prelude {
     #![allow(unused_imports)]
-    use super::anything::Anything;
+    use super::anything::*;
     use super::macros::*;
 }
 
 #[cfg(test)]
 mod tests {
-    use super::anything::Anything;
-
     use super::*;
 
     #[derive(Debug, PartialEq)]
@@ -18,7 +16,7 @@ mod tests {
 
     #[test]
     pub fn test_insert() {
-        let mut anything = Anything::new();
+        let mut anything = anything::Anything::new();
         anything.insert(1i32);
         anything.insert(String::from("hello world"));
         if let Some(val) = anything.get::<i32>() {
@@ -31,7 +29,7 @@ mod tests {
 
     #[test]
     pub fn test_add_multiple() {
-        let mut anything = Anything::new();
+        let mut anything = anything::Anything::new();
         add_multiple!(anything, 3.14f32, Foo(23));
         if let Some(val) = anything.get::<f32>() {
             assert_eq!(val, &3.14);
