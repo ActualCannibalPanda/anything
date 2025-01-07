@@ -1,11 +1,7 @@
-pub mod anything;
-pub mod macros;
+mod anything;
+mod macros;
 
-pub mod prelude {
-    // #![allow(unused_imports)]
-    pub use crate::anything::Anything;
-    pub use crate::*;
-}
+pub use crate::anything::Anything;
 
 #[cfg(test)]
 mod tests {
