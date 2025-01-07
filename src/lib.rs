@@ -2,9 +2,9 @@ pub mod anything;
 pub mod macros;
 
 pub mod prelude {
-    #![allow(unused_imports)]
-    pub use super::anything::Anything;
-    pub use super::macros::*;
+    // #![allow(unused_imports)]
+    pub use crate::anything::Anything;
+    pub use crate::*;
 }
 
 #[cfg(test)]
