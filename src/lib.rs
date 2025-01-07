@@ -1,5 +1,5 @@
 mod anything;
-mod macros;
+pub mod macros;
 
 pub use anything::Anything;
 
