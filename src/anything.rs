@@ -10,8 +10,6 @@ pub trait ToBox<T: ?Sized + Cast>: Any {
 }
 
 pub trait Cast {
-    fn type_id(&self) -> TypeId;
-
     unsafe fn downcast_ref<T>(&self) -> &T;
     unsafe fn downcast_mut<T>(&mut self) -> &mut T;
 }
@@ -49,10 +47,6 @@ impl<A: ?Sized + Cast> Map<A> {
 macro_rules! generate_implementation {
     ($t:ident $(+ $othert:ident)*) => {
         impl Cast for dyn $t $(+ $othert)* {
-            fn type_id(&self) -> TypeId {
-                self.type_id()
-            }
-
             unsafe fn downcast_ref<T>(&self) -> &T {
                 &*(self as *const Self as *const T)
             }
