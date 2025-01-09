@@ -2,6 +2,7 @@ mod anything;
 mod macros;
 
 pub use anything::Anything;
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -23,9 +24,9 @@ mod tests {
     }
 
     #[test]
-    pub fn test_add_multiple() {
+    pub fn test_add_anything() {
         let mut anything = Anything::new();
-        add_multiple!(anything, 3.14f32, Foo(23));
+        add_anything!(anything, 3.14f32, Foo(23));
         if let Some(val) = anything.get::<f32>() {
             assert_eq!(val, &3.14);
         }

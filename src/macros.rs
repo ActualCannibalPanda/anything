@@ -1,5 +1,5 @@
 #[macro_export]
-macro_rules! add_multiple {
+macro_rules! add_anything {
     ($anything:ident, $($x:expr),*) => {
         $(
             $anything.insert($x);
