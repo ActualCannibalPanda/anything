@@ -20,6 +20,14 @@ pub struct Map<A: ?Sized = dyn Any> {
 
 pub type Anything = Map<dyn Any>;
 
+impl<A: ?Sized + Cast> Default for Map<A> {
+    fn default() -> Self {
+        Self {
+            raw: RawMap::with_hasher(Default::default()),
+        }
+    }
+}
+
 impl<A: ?Sized + Cast> Map<A> {
     pub fn new() -> Map<A> {
         Map {

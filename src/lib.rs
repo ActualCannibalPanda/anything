@@ -7,6 +7,8 @@ pub use anything::Anything;
 mod tests {
     use super::*;
 
+    use std::f32::consts::PI;
+
     #[derive(Debug, PartialEq)]
     struct Foo(i32);
 
@@ -26,9 +28,9 @@ mod tests {
     #[test]
     pub fn test_add_anything() {
         let mut anything = Anything::new();
-        add_anything!(anything, 3.14f32, Foo(23));
+        add_anything!(anything, PI, Foo(23));
         if let Some(val) = anything.get::<f32>() {
-            assert_eq!(val, &3.14);
+            assert_eq!(val, &PI);
         }
         if let Some(val) = anything.get::<Foo>() {
             assert_eq!(val, &Foo(23));
@@ -37,12 +39,12 @@ mod tests {
 
     #[test]
     pub fn test_create_anything() {
-        let anything = create_anything!(12i32, 3.14f32, Foo(23));
+        let anything = create_anything!(12i32, PI, Foo(23));
         if let Some(val) = anything.get::<i32>() {
             assert_eq!(val, &12i32);
         }
         if let Some(val) = anything.get::<f32>() {
-            assert_eq!(val, &3.14);
+            assert_eq!(val, &PI);
         }
         if let Some(val) = anything.get::<Foo>() {
             assert_eq!(val, &Foo(23));
